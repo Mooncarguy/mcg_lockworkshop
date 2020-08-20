@@ -1,5 +1,3 @@
 default
-hec_nopvp?
-drawers?
 3d_armor_stand?
 protector?

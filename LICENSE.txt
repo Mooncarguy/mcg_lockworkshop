@@ -1,4 +1,4 @@
-License of the files init.lua, crafts_default.lua, crafts_hec_nopvp.lua, crafts_drawers.lua, crafts_3d_armor_stand.lua and crafts_protector.lua (MIT)
+License of the files init.lua and crafts.lua (MIT)
 ----------------------------------------------------------
 
 Copyright 2020 Mooncarguy
@@ -16,7 +16,7 @@ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIG
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-License of the files mcg_lockworkshop_lock_workshop_tops.png and mcg_lockworkshop_lock_workshop_side_a.png (CC0 1.0)
+License of the files mcg_lockworkshop_lock_workshop_top.png and mcg_lockworkshop_lock_workshop_side_a.png (CC0 1.0)
 ----------------------------------------------------------------------------------------------------------------------
 
 Copyright 2020 Mooncarguy
@@ -26,8 +26,7 @@ CC0 1.0 Universell
 For more information see: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 
 
-License of the files mcg_lockworkshop_lock_workshop_side_b.png, mcg_lockworkshop_lock_workshop_side_c.png, mcg_lockworkshop_lock_workshop_side_d.png and 
-mcg_lockworkshop_lock.png (CC BY-NC-SA 4.0)
+License of the files mcg_lockworkshop_lock_workshop_side_b.png, mcg_lockworkshop_lock_workshop_side_c.png, mcg_lockworkshop_lock_workshop_side_d.png, mcg_lockworkshop_lock.png and mcg_lockworkshop_lock_layout.png (CC BY-NC-SA 4.0)
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Copyright 2020 Marsufoman

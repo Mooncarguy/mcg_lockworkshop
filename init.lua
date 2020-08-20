@@ -1,39 +1,87 @@
 --All content of this file are licensed under MIT. See LICENSE.txt for more information.
 
+mcg_lockworkshop = {}
+mcg_lockworkshop.crafts = {}
 
-mcg_lockworkshop_crafts = {}
-
-dofile(minetest.get_modpath("mcg_lockworkshop").."/config.txt")
-
---default support
-if minetest.get_modpath("default") then
-	dofile(minetest.get_modpath("mcg_lockworkshop").."/crafts_default.lua")
+mcg_lockworkshop.register_craft = function(item_from, item_to)
+	if not minetest.registered_nodes[item_from] or not minetest.registered_nodes[item_to] then
+		return
+	end
+	minetest.clear_craft({output = item_to})
+	mcg_lockworkshop.crafts[item_from] = item_to
 end
 
---hec_nopvp support
-if minetest.get_modpath("hec_nopvp") then
-	dofile(minetest.get_modpath("mcg_lockworkshop").."/crafts_hec_nopvp.lua")
-end
+dofile(minetest.get_modpath("mcg_lockworkshop") .."/crafts.lua")
 
---drawers support
-if wl2_drawers == true then
-	if minetest.get_modpath("drawers") then
-		dofile(minetest.get_modpath("mcg_lockworkshop").."/crafts_drawers.lua")
+local function craft(pos, listname, index, stack, player)
+	local inv = minetest.get_meta(pos):get_inventory()
+	local input = inv:get_stack("input", 1):get_name()
+	local lock = inv:get_stack("lock", 1):is_empty()
+	
+	if mcg_lockworkshop.crafts[input] and inv:room_for_item("output", mcg_lockworkshop.crafts[input]) and not lock then
+		inv:remove_item("input", {name = input, count = 1})
+		inv:remove_item("lock", {name = "mcg_lockworkshop:lock", count = 1})
+		inv:add_item("output", mcg_lockworkshop.crafts[input])
 	end
 end
 
---3d_armor_stand support
-if minetest.get_modpath("3d_armor_stand") then
-	dofile(minetest.get_modpath("mcg_lockworkshop").."/crafts_3d_armor_stand.lua")
-end
+minetest.register_node("mcg_lockworkshop:lock_workshop", {
+	description = "Lock Workshop",
+	groups = {choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+	tiles = {
+		"default_chest_top.png^mcg_lockworkshop_lock_workshop_top.png", "default_chest_top.png", 
+		"default_chest_side.png^mcg_lockworkshop_lock_workshop_side_a.png","default_chest_side.png^mcg_lockworkshop_lock_workshop_side_b.png", 
+		"default_chest_side.png^mcg_lockworkshop_lock_workshop_side_c.png", "default_chest_side.png^mcg_lockworkshop_lock_workshop_side_d.png"
+	},
+	after_place_node = function(pos) 
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		meta:set_string("infotext", "Lock Workshop")
+		inv:set_size("input", 1)
+		inv:set_size("lock", 1)
+		inv:set_size("output", 1)
+		meta:set_string("formspec", [[
+			size[8,4.8]
+			box[-0.01,0;1.84,0.9;#555555]
+			image[0,0;1,1;mcg_lockworkshop_lock_workshop_side_a.png]
+			label[1.2,0.25;Lock]
+			list[context;input;2,0;1,1;]
+			list[context;lock;3,0;1,1;]
+			image[3,0;1,1;mcg_lockworkshop_lock_layout.png]
+			image[4,0;1,1;gui_furnace_arrow_bg.png^[transformR270]
+			list[context;output;5,0;1,1;]
+			list[current_player;main;0,1.1;8,4;]
+		]].. default.gui_bg .. default.gui_bg_img .. default.gui_slots .. default.get_hotbar_bg(0, 1.1))
+	end,
+	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		local stackname = stack:get_name()
+		if (listname == "input" and mcg_lockworkshop.crafts[stackname]) or
+			 (listname == "lock" and stackname == "mcg_lockworkshop:lock") then
+			return stack:get_count()
+		end
+		return 0
+	end,
+	on_metadata_inventory_put = craft,
+	on_metadata_inventory_take = craft,
+	can_dig = function(pos)
+		local inv = minetest.get_meta(pos):get_inventory()
+		if inv:is_empty("input") and inv:is_empty("lock") and inv:is_empty("output") then
+			return true
+		else
+			return false
+		end
+end})
 
---protector support
-if minetest.get_modpath("protector") then
-	dofile(minetest.get_modpath("mcg_lockworkshop").."/crafts_protector.lua")
-end
+minetest.register_craft({
+	output = "mcg_lockworkshop:lock_workshop",
+	recipe = {
+		{"group:wood", "group:stick", "group:wood"},
+		{"group:stick", "default:steel_ingot", "group:stick"},
+		{"group:wood", "group:stick", "group:wood"}
+	}
+})
 
-
---Lock
 minetest.register_craftitem("mcg_lockworkshop:lock", {
 	description = "Lock",
 	inventory_image = "mcg_lockworkshop_lock.png",
@@ -46,82 +94,4 @@ minetest.register_craft({
 		{"","default:steel_ingot", ""},
 		{"default:copper_ingot", "default:steel_ingot", "default:copper_ingot"}
 	}
-})
-
-
--- Lock Workshop
-minetest.register_node ("mcg_lockworkshop:lock_workshop", {
-	tiles = {
-		"default_chest_top.png^mcg_lockworkshop_lock_workshop_top.png", "default_chest_top.png", 
-		"default_chest_side.png^mcg_lockworkshop_lock_workshop_side_a.png","default_chest_side.png^mcg_lockworkshop_lock_workshop_side_b.png", 
-		"default_chest_side.png^mcg_lockworkshop_lock_workshop_side_c.png", "default_chest_side.png^mcg_lockworkshop_lock_workshop_side_d.png"
-	},
-	groups = {choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
-	sounds = default.node_sound_wood_defaults(),
-	description = "Lock Workshop",
-	after_place_node = function (pos) 
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		meta:set_string("infotext", "Lock Workshop") 
-		inv:set_size("input_a", 1)
-		inv:set_size("input_b", 1)
-		inv:set_size("output", 1)
-		meta:set_string("formspec", [[
-			size[8,6.75]
-			list[context;input_a;3,0;1,1;]
-			list[context;input_b;4,0;1,1;]
-			list[context;output;3.5,1.5;1,1;]
-			list[current_player;main;0,3;8,4;]
-			label[2,0;Input:]
-			label[2,1.5;Output:]
-		]])
-	end,
-	can_dig = function (pos)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		if inv:is_empty("input_a") == true and inv:is_empty("input_b") == true and inv:is_empty("output") == true then
-			return true
-		else
-			return false
-		end
-	end
-})
-
-minetest.register_craft({
-	output = "mcg_lockworkshop:lock_workshop",
-	recipe = {
-		{"group:wood", "group:stick", "group:wood"},
-		{"group:stick", "default:steel_ingot", "group:stick"},
-		{"group:wood", "group:stick", "group:wood"}
-	}
-})
-
-minetest.register_abm ({
-	nodenames = {"mcg_lockworkshop:lock_workshop"},
-	chance = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		local input_a_stack = inv:get_stack("input_a", 1)
-		local input_b_stack = inv:get_stack("input_b", 1)
-		local input_a_name = input_a_stack:get_name()
-		local input_b_name = input_b_stack:get_name()
-		local input_a_type = string.gsub(input_a_name, ":", "-")
-		local input_b_type = string.gsub(input_b_name, ":", "-")
-
-		if inv:room_for_item ("output", mcg_lockworkshop_crafts[input_a_type.."-"..input_b_type]) and 
-		mcg_lockworkshop_crafts[input_a_type.."-"..input_b_type] then
-			inv:remove_item("input_a", {name = input_a_name, count=1})
-			inv:remove_item("input_b", {name = input_b_name, count=1})
-			inv:add_item ("output", mcg_lockworkshop_crafts[input_a_type.."-"..input_b_type])
-		elseif inv:room_for_item("output", mcg_lockworkshop_crafts[input_b_type.."-"..input_a_type]) and
-		mcg_lockworkshop_crafts[input_b_type.."-"..input_a_type] then
-			inv:remove_item("input_a", {name = input_a_name, count=1})
-			inv:remove_item("input_b", {name = input_b_name, count=1})
-			inv:add_item ("output", mcg_lockworkshop_crafts[input_b_type.."-"..input_a_type])
-		end
-
-	end,
-	interval = 0.5
 })
