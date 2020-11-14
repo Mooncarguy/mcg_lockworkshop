@@ -27,7 +27,7 @@ For more information see: https://creativecommons.org/publicdomain/zero/1.0/lega
 
 
 License of the files mcg_lockworkshop_lock_workshop_side_b.png, mcg_lockworkshop_lock_workshop_side_c.png, mcg_lockworkshop_lock_workshop_side_d.png, mcg_lockworkshop_lock.png and mcg_lockworkshop_lock_layout.png (CC BY-NC-SA 4.0)
---------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Copyright 2020 Marsufoman
 
