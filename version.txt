@@ -1,11 +1,15 @@
-This is version 0.1.3_alpha.
+This is version 0.1.4_beta.
 
 Changelog:
 
+beta
+----
+0.1.4 Better formspec added by TalkLounge, disabled lock stacking, made locks more expensive.
 alpha
+
+
 -----
 
-0.1.4 Rewrite code
 0.1.3 Polished changelog, added license information to the crafting files, added readme file.
 
 
