@@ -45,7 +45,7 @@ minetest.register_node("mcg_lockworkshop:lock_workshop", {
 			size[8,4.8]
 			box[-0.01,0;1.84,0.9;#555555]
 			image[0,0;1,1;mcg_lockworkshop_lock_workshop_side_a.png]
-			label[1.2,0.25;Lock]
+			label[1,0.25;Lock]
 			list[context;input;2,0;1,1;]
 			list[context;lock;3,0;1,1;]
 			image[3,0;1,1;mcg_lockworkshop_lock_layout.png]
