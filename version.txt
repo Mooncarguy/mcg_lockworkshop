@@ -1,6 +1,10 @@
-This is version 0.1.4_beta.
+This is version 1.0_stable.
 
 Changelog:
+
+stable
+------
+1.0 Better readme file, changed lock recipes to output only one lock, changed license of textures by Marsufoman to CC BY-SA 4.0
 
 beta
 ----
