@@ -89,7 +89,7 @@ minetest.register_craftitem("mcg_lockworkshop:lock", {
 })
 
 minetest.register_craft({
-	output = "mcg_lockworkshop:lock 3",
+	output = "mcg_lockworkshop:lock 1",
 	recipe = {
 		{"","default:steel_ingot", ""},
 		{"default:copper_ingot", "default:steel_ingot", "default:copper_ingot"}
