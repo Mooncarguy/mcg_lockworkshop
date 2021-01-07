@@ -1,9 +1,10 @@
-This is version 1.0_stable.
+This is version 1.1_stable.
 
 Changelog:
 
 stable
 ------
+1.1 Disabled stacking of locks.
 1.0 Better readme file, changed lock recipes to output only one lock, changed license of textures by Marsufoman to CC BY-SA 4.0, slightly tweaked formspec.
 
 beta
