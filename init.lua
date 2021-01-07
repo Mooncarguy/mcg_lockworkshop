@@ -85,7 +85,8 @@ minetest.register_craft({
 minetest.register_craftitem("mcg_lockworkshop:lock", {
 	description = "Lock",
 	inventory_image = "mcg_lockworkshop_lock.png",
-	wield_image = "mcg_lockworkshop_lock.png"
+	wield_image = "mcg_lockworkshop_lock.png",
+	stack_max = 1
 })
 
 minetest.register_craft({
